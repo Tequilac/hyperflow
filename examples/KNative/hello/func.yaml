@@ -1,0 +1,24 @@
+specVersion: 0.34.0
+name: hello
+runtime: node
+registry: ""
+image: ""
+imageDigest: ""
+created: 2023-01-07T16:30:56.6774736+01:00
+invocation:
+  format: http
+build:
+  buildpacks: []
+  builder: ""
+  buildEnvs: []
+run:
+  volumes: []
+  envs: []
+deploy:
+  namespace: ""
+  annotations: {}
+  options: {}
+  labels: []
+  healthEndpoints:
+    liveness: /health/liveness
+    readiness: /health/readiness

@@ -1,0 +1,15 @@
+{
+  "name": "KNativeExample",
+  "processes": [
+    {
+      "name": "KNativeExample",
+      "type": "dataflow",
+      "firingLimit": 1,
+      "function": "knativeCommand",
+      "config": {
+        "path": "./examples/KNative/hello",
+        "repository": "eu.gcr.io/username/func"
+      }
+    }
+  ]
+}
