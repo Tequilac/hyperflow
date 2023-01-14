@@ -25,7 +25,7 @@ function createData(ins) {
     const dataString = `
         - name: {key}
             value: {value}`;
-    for (const item of ins) {
+    for (const item of ins.data[0]) {
         console.log(item);
     }
     return "";
