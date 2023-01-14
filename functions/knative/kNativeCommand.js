@@ -39,7 +39,13 @@ function createData(ins) {
     return result;
 }
 
-async function getCondition(client, name) {
+async function execute(client, url) {
+    const response = await fetch(url);
+    const json = await response.json();
+    console.log(json);
+}
+
+async function getCondition(client, name, url) {
     response = await client.read({
         apiVersion: "apps/v1",
         kind: "Deployment",
@@ -47,8 +53,13 @@ async function getCondition(client, name) {
             name: `${name}-deployment`
         }
     });
-    console.log(response.body.status.conditions);
-    setTimeout(() => getCondition(client, name), 1000);
+    const condition = response.body.status.conditions[0].type;
+    console.log(`Current condition: ${condition}`);
+    if (condition !== "Available") {
+        setTimeout(() => getCondition(client, name, url), 1000);
+    } else {
+        execute(client, url);
+    }
 }
 
 async function deleteService(spec, client) {
@@ -58,11 +69,11 @@ async function deleteService(spec, client) {
     console.log("Service deleted");
 }
 
-async function getAddress(spec, client) {
+async function scheduleExecution(spec, client) {
     let response = await client.read(spec);
     const url = response.body.status.url;
     console.log("Obtained service url: " + url);
-    setTimeout(() => getCondition(client, response.body.status.latestCreatedRevisionName), 1000);
+    setTimeout(() => getCondition(client, response.body.status.latestCreatedRevisionName, url), 1000);
 }
 
 async function kNativeCommand(ins, outs, context, cb) {
@@ -87,7 +98,7 @@ async function kNativeCommand(ins, outs, context, cb) {
     const client = k8s.KubernetesObjectApi.makeApiClient(kubeconfig);
     let response = await client.create(spec);
     console.log(response.body);
-    setTimeout(() => getAddress(spec, client), 3000);
+    setTimeout(() => scheduleExecution(spec, client), 3000);
 }
 
 exports.kNativeCommand = kNativeCommand;
