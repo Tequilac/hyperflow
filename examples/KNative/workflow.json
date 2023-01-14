@@ -7,9 +7,26 @@
       "firingLimit": 1,
       "function": "knativeCommand",
       "config": {
-        "path": "./examples/KNative/hello",
-        "repository": "eu.gcr.io/username/func"
-      }
+        "image": "tequilac/userAgentAnalyzer"
+      },
+      "ins": [
+        "dataUrl"
+      ],
+      "outs": [
+        "result"
+      ]
     }
+  ],
+  "signals": [
+    {
+      "name": "dataUrl",
+      "data": "http://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/apache_logs/apache_logs"
+    }
+  ],
+  "ins": [
+    "dataUrl"
+  ],
+  "outs": [
+    "result"
   ]
 }
