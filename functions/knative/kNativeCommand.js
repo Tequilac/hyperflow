@@ -39,6 +39,14 @@ function createData(ins) {
     return result;
 }
 
+async function getAddress(spec, client) {
+    response = await client.read(spec);
+    console.log(response);
+    console.log("Deleting...");
+    response = await client.delete(spec);
+    console.log(response);
+}
+
 async function kNativeCommand(ins, outs, context, cb) {
     console.log(ins);
     console.log(outs);
@@ -62,9 +70,7 @@ async function kNativeCommand(ins, outs, context, cb) {
     const client = k8s.KubernetesObjectApi.makeApiClient(kubeconfig);
     let response = await client.create(spec);
     console.log(response.body);
-    console.log("Deleting...");
-    response = await client.delete(spec);
-    console.log(response);
+    setTimeout(() => getAddress(spec, client), 5000);
 }
 
 exports.kNativeCommand = kNativeCommand;
