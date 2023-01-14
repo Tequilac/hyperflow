@@ -35,7 +35,7 @@ function createData(ins) {
             key: `DATA${i}`,
             value: ins.dataUrl.data[i]
         }
-        result += interpolate(dataString, params);
+        result += ("\n" + interpolate(dataString, params));
     }
     return result;
 }
