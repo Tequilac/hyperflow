@@ -20,7 +20,11 @@
   "signals": [
     {
       "name": "dataUrl",
-      "data": [ 1, 2, 3, 4, 5, 6 ]
+      "data": [[
+        "http://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/apache_logs/apache_logs",
+        "http://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/apache_logs/apache_logs",
+        "http://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/apache_logs/apache_logs"
+      ]]
     }, {
       "name": "results"
     }
