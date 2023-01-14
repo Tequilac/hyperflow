@@ -7,7 +7,7 @@
       "firingLimit": 1,
       "function": "kNativeCommand",
       "config": {
-        "image": "tequilac/lineCounter"
+        "image": "tequilac/line-counter"
       },
       "ins": [
         "dataUrl"
@@ -25,13 +25,13 @@
         "http://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/apache_logs/apache_logs"
       ]
     }, {
-      "name": "result"
+      "name": "results"
     }
   ],
   "ins": [
     "dataUrl"
   ],
   "outs": [
-    "result"
+    "results"
   ]
 }

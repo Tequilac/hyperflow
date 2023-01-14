@@ -11,6 +11,11 @@ async function kNativeCommand(ins, outs, context, cb) {
     const kubeconfig = new k8s.KubeConfig();
     kubeconfig.loadFromDefault();
     console.log(kubeconfig);
+
+    const k8sApi = kubeconfig.makeApiClient(k8s.ServingKnativeDev_v1alpha1Api);
+    console.log(k8sApi);
+
+
     // console.log(`Deploying function ${context.name}`);
     // exec(`func deploy --path ${context.path} --repository ${context.repository}`, (err, stdout, stderr) => {
     //     if (err) {
