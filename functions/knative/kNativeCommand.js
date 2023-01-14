@@ -7,24 +7,24 @@ SERVICE_YAML_TEMPLATE = `
     apiVersion: serving.knative.dev/v1
     kind: Service
     metadata:
-        name: ${name}
-        namespace: ${namespace}
+        name: {name}
+        namespace: {namespace}
     spec:
         template:
             spec:
                 containers:
-                    - image: docker.io/${image}
+                    - image: docker.io/{image}
                     env:
-                        ${dataParams}`;
+                        {dataParams}`;
 
 
-var interpolate = (tpl, args) => tpl.replace(/\${(\w+)}/g, (_, v) => args[v]);
+var interpolate = (tpl, args) => tpl.replace(/{(\w+)}/g, (_, v) => args[v]);
 
 
 function createData(ins) {
     const dataString = `
-        - name: ${key}
-            value: ${value}`;
+        - name: {key}
+            value: {value}`;
     for (const item of ins) {
         console.log(item);
     }
