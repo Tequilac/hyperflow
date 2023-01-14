@@ -5,7 +5,7 @@
       "name": "KNativeExample",
       "type": "dataflow",
       "firingLimit": 1,
-      "function": "knativeCommand",
+      "function": "kNativeCommand",
       "config": {
         "image": "tequilac/userAgentAnalyzer"
       },
