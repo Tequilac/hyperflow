@@ -56,11 +56,11 @@ async function kNativeCommand(ins, outs, context, cb) {
     }
     console.log(interpolate(SERVICE_YAML_TEMPLATE, params));
 
-    var specs = yaml.safeLoad(interpolate(SERVICE_YAML_TEMPLATE, params));
+    var spec = yaml.safeLoad(interpolate(SERVICE_YAML_TEMPLATE, params));
 
-    console.log(specs);
+    console.log(spec);
     const client = k8s.KubernetesObjectApi.makeApiClient(kubeconfig);
-    const validSpecs = specs.filter((s) => s && s.kind && s.metadata);
+    client.create(spec);
     console.log(k8sApi);
 
     // console.log(`Deploying function ${context.name}`);
