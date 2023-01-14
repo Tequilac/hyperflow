@@ -42,8 +42,9 @@ function createData(ins) {
 async function getAddress(spec, client) {
     let response = await client.read(spec);
     const url = response.body.status.url;
+    console.log(response);
     console.log("Obtained service url: " + url);
-    response = await client.read({kind: "Pod"});
+    response = await client.read({kind: "Deployment", name: "knative-example-0001"});
     console.log(response);
     console.log("Deleting...");
     await client.delete(spec);
