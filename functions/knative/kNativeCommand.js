@@ -39,12 +39,12 @@ function createData(ins) {
     return result;
 }
 
-async function getCondition(client) {
+async function getCondition(client, name) {
     response = await client.read({
         apiVersion: "apps/v1",
         kind: "Deployment",
         metadata: {
-            name: `${response.body.status.latestCreatedRevisionName}-deployment`
+            name: `${name}-deployment`
         }
     });
     console.log(response.body.status.conditions);
@@ -61,9 +61,8 @@ async function deleteService(spec, client) {
 async function getAddress(spec, client) {
     let response = await client.read(spec);
     const url = response.body.status.url;
-    console.log(response);
     console.log("Obtained service url: " + url);
-    setTimeout(() => getCondition(client), 1000);
+    setTimeout(() => getCondition(client, response.body.status.latestCreatedRevisionName), 1000);
 }
 
 async function kNativeCommand(ins, outs, context, cb) {
