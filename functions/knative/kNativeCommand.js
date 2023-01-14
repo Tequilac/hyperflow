@@ -60,18 +60,11 @@ async function kNativeCommand(ins, outs, context, cb) {
 
     console.log(spec);
     const client = k8s.KubernetesObjectApi.makeApiClient(kubeconfig);
-    const response = await client.create(spec);
+    let response = await client.create(spec);
     console.log(response.body);
-
-    // console.log(`Deploying function ${context.name}`);
-    // exec(`func deploy --path ${context.path} --repository ${context.repository}`, (err, stdout, stderr) => {
-    //     if (err) {
-    //         console.log(`Error while deploying function ${context.name}: ${stderr}`);
-    //     } else {
-    //         console.log(stdout);
-    //         kNativeInvokeFunction(context, ins);
-    //     }
-    // });
+    console.log("Deleting...");
+    response = await client.delete(spec);
+    console.log(response);
 }
 
 exports.kNativeCommand = kNativeCommand;
