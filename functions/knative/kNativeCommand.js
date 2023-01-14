@@ -22,7 +22,7 @@ var interpolate = (tpl, args) => tpl.replace(/{(\w+)}/g, (_, v) => args[v]);
 
 function createData(ins) {
     const dataString = `
-          - name: {key}
+        - name: {key}
           value: {value}`;
     amountParams = {
         key: "DATA_NUM",
