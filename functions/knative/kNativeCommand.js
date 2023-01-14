@@ -48,7 +48,7 @@ async function getCondition(client, name) {
         }
     });
     console.log(response.body.status.conditions);
-    setTimeout(() => getCondition(client), 1000);
+    setTimeout(() => getCondition(client, name), 1000);
 }
 
 async function deleteService(spec, client) {
