@@ -25,10 +25,19 @@ function createData(ins) {
     const dataString = `
         - name: {key}
             value: {value}`;
-    for (const item of ins.dataUrl.data[0]) {
-        console.log(item);
+    amountParams = {
+        key: "DATA_NUM",
+        value: ins.dataUrl.data.length
     }
-    return "";
+    let result = interpolate(dataString, amountParams);
+    for (let i = 0; i < ins.dataUrl.data.length; i++) {
+        params = {
+            key: `DATA${i}`,
+            value: ins.dataUrl.data[i]
+        }
+        result += interpolate(dataString, params);
+    }
+    return result;
 }
 
 async function kNativeCommand(ins, outs, context, cb) {
