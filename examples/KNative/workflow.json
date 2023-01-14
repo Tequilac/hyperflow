@@ -7,7 +7,7 @@
       "firingLimit": 1,
       "function": "kNativeCommand",
       "config": {
-        "image": "tequilac/userAgentAnalyzer"
+        "image": "tequilac/lineCounter"
       },
       "ins": [
         "dataUrl"

@@ -1,18 +1,6 @@
-// Runs a function in a KNative cluster
+// Runs a service in a KNative cluster
 
-// const {exec} = require('child_process');
-
-
-// async function kNativeInvokeFunction(context, ins) {
-//     console.log(`Invoking function ${context.name}`);
-//     exec(`func invoke --data ${ins[0]}`, (err, stdout, stderr) => {
-//         if (err) {
-//             console.log(`Error while invoking function ${context.name}: ${stderr}`);
-//         } else {
-//             console.log(stdout);
-//         }
-//     });
-// }
+const k8s = require('@kubernetes/client-node');
 
 
 async function kNativeCommand(ins, outs, context, cb) {
@@ -20,6 +8,9 @@ async function kNativeCommand(ins, outs, context, cb) {
     console.log(outs);
     console.log(context);
     console.log(cb);
+    const kubeconfig = new k8s.KubeConfig();
+    kubeconfig.loadFromDefault();
+    console.log(kubeconfig);
     // console.log(`Deploying function ${context.name}`);
     // exec(`func deploy --path ${context.path} --repository ${context.repository}`, (err, stdout, stderr) => {
     //     if (err) {
