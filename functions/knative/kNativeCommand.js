@@ -39,11 +39,7 @@ function createData(ins) {
     return result;
 }
 
-async function getAddress(spec, client) {
-    let response = await client.read(spec);
-    const url = response.body.status.url;
-    console.log(response);
-    console.log("Obtained service url: " + url);
+async function getCondition(client) {
     response = await client.read({
         apiVersion: "apps/v1",
         kind: "Deployment",
@@ -52,9 +48,22 @@ async function getAddress(spec, client) {
         }
     });
     console.log(response.body.status.conditions);
+    setTimeout(() => getCondition(client), 1000);
+}
+
+async function deleteService(spec, client) {
+
     console.log("Deleting...");
     await client.delete(spec);
     console.log("Service deleted");
+}
+
+async function getAddress(spec, client) {
+    let response = await client.read(spec);
+    const url = response.body.status.url;
+    console.log(response);
+    console.log("Obtained service url: " + url);
+    setTimeout(() => getCondition(client), 1000);
 }
 
 async function kNativeCommand(ins, outs, context, cb) {
@@ -79,7 +88,7 @@ async function kNativeCommand(ins, outs, context, cb) {
     const client = k8s.KubernetesObjectApi.makeApiClient(kubeconfig);
     let response = await client.create(spec);
     console.log(response.body);
-    setTimeout(() => getAddress(spec, client), 5000);
+    setTimeout(() => getAddress(spec, client), 3000);
 }
 
 exports.kNativeCommand = kNativeCommand;
