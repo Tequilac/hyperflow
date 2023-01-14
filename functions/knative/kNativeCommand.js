@@ -47,7 +47,9 @@ async function getAddress(spec, client) {
     response = await client.read({
         apiVersion: "apps/v1",
         kind: "Deployment",
-        name: response.body.status.latestCreatedRevisionName
+        metadata: {
+            name: response.body.status.latestCreatedRevisionName
+        }
     });
     console.log(response);
     console.log("Deleting...");
