@@ -61,7 +61,6 @@ async function kNativeCommand(ins, outs, context, cb) {
     console.log(spec);
     const client = k8s.KubernetesObjectApi.makeApiClient(kubeconfig);
     client.create(spec);
-    console.log(k8sApi);
 
     // console.log(`Deploying function ${context.name}`);
     // exec(`func deploy --path ${context.path} --repository ${context.repository}`, (err, stdout, stderr) => {
