@@ -41,6 +41,9 @@ function createData(ins) {
 
 async function getAddress(spec, client) {
     let response = await client.read(spec);
+    const url = response.body.status.url;
+    console.log("Obtained service url: " + url);
+    response = await client.read({kind: "Pod"});
     console.log(response);
     console.log("Deleting...");
     await client.delete(spec);
@@ -54,7 +57,6 @@ async function kNativeCommand(ins, outs, context, cb) {
     console.log(cb);
     const kubeconfig = new k8s.KubeConfig();
     kubeconfig.loadFromDefault();
-
 
     const params = {
         name: context.name,
