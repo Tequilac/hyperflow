@@ -4,18 +4,18 @@ const k8s = require('@kubernetes/client-node');
 const yaml = require('js-yaml');
 
 SERVICE_YAML_TEMPLATE = `
-    apiVersion: serving.knative.dev/v1
-    kind: Service
-    metadata:
-        name: {name}
-        namespace: {namespace}
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: {name}
+  namespace: {namespace}
+spec:
+  template:
     spec:
-        template:
-            spec:
-                containers:
-                    - image: docker.io/{image}
-                        env:
-                        {dataParams}`;
+      containers:
+        - image: docker.io/{image}
+          env:
+          {dataParams}`;
 
 
 var interpolate = (tpl, args) => tpl.replace(/{(\w+)}/g, (_, v) => args[v]);
@@ -23,8 +23,8 @@ var interpolate = (tpl, args) => tpl.replace(/{(\w+)}/g, (_, v) => args[v]);
 
 function createData(ins) {
     const dataString = `
-        - name: {key}
-            value: {value}`;
+          - name: {key}
+          value: {value}`;
     amountParams = {
         key: "DATA_NUM",
         value: ins.dataUrl.data[0].length
