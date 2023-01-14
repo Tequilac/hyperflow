@@ -14,7 +14,8 @@ SERVICE_YAML_TEMPLATE = `
             spec:
                 containers:
                     - image: docker.io/{image}
-                        env:{dataParams}`;
+                        env:
+                        {dataParams}`;
 
 
 var interpolate = (tpl, args) => tpl.replace(/{(\w+)}/g, (_, v) => args[v]);
@@ -29,6 +30,8 @@ function createData(ins) {
         value: ins.dataUrl.data.length
     }
     let result = interpolate(dataString, amountParams);
+    console.log(ins.dataUrl.data);
+    console.log(ins.dataUrl.data.length);
     for (let i = 0; i < ins.dataUrl.data.length; i++) {
         params = {
             key: `DATA${i}`,
