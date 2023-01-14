@@ -55,6 +55,7 @@ async function kNativeCommand(ins, outs, context, cb) {
         image: context.image,
         dataParams: createData(ins)
     }
+    console.log(interpolate(SERVICE_YAML_TEMPLATE, params));
 
     var specs = yaml.safeLoad(interpolate(SERVICE_YAML_TEMPLATE, params));
 
