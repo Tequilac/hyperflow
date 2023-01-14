@@ -39,13 +39,14 @@ function createData(ins) {
     return result;
 }
 
-async function execute(client, url) {
+async function execute(spec, client, url) {
     const response = await fetch(url);
     const json = await response.json();
     console.log(json);
+    deleteService(spec, client);
 }
 
-async function getCondition(client, name, url) {
+async function getCondition(spec, client, name, url) {
     response = await client.read({
         apiVersion: "apps/v1",
         kind: "Deployment",
@@ -56,14 +57,13 @@ async function getCondition(client, name, url) {
     const condition = response.body.status.conditions[0].type;
     console.log(`Current condition: ${condition}`);
     if (condition !== "Available") {
-        setTimeout(() => getCondition(client, name, url), 1000);
+        setTimeout(() => getCondition(spec, client, name, url), 1000);
     } else {
-        execute(client, url);
+        execute(spec, client, url);
     }
 }
 
 async function deleteService(spec, client) {
-
     console.log("Deleting...");
     await client.delete(spec);
     console.log("Service deleted");
@@ -73,7 +73,7 @@ async function scheduleExecution(spec, client) {
     let response = await client.read(spec);
     const url = response.body.status.url;
     console.log("Obtained service url: " + url);
-    setTimeout(() => getCondition(client, response.body.status.latestCreatedRevisionName, url), 1000);
+    setTimeout(() => getCondition(spec, client, response.body.status.latestCreatedRevisionName, url), 1000);
 }
 
 async function kNativeCommand(ins, outs, context, cb) {
