@@ -14,8 +14,8 @@ SERVICE_YAML_TEMPLATE = `
             spec:
                 containers:
                     - image: docker.io/{image}
-                    env:
-                        {dataParams}`;
+                        env:
+                            {dataParams}`;
 
 
 var interpolate = (tpl, args) => tpl.replace(/{(\w+)}/g, (_, v) => args[v]);
