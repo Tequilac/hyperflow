@@ -44,7 +44,11 @@ async function getAddress(spec, client) {
     const url = response.body.status.url;
     console.log(response);
     console.log("Obtained service url: " + url);
-    response = await client.read({kind: "Deployment", name: "knative-example-0001"});
+    response = await client.read({
+        apiVersion: "apps/v1",
+        kind: "Deployment",
+        name: response.body.status.latestCreatedRevisionName
+    });
     console.log(response);
     console.log("Deleting...");
     await client.delete(spec);
