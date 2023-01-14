@@ -40,11 +40,11 @@ function createData(ins) {
 }
 
 async function getAddress(spec, client) {
-    response = await client.read(spec);
+    let response = await client.read(spec);
     console.log(response);
     console.log("Deleting...");
-    response = await client.delete(spec);
-    console.log(response);
+    await client.delete(spec);
+    console.log("Service deleted");
 }
 
 async function kNativeCommand(ins, outs, context, cb) {
