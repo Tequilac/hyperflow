@@ -21,9 +21,6 @@ var interpolate = (tpl, args) => tpl.replace(/{(\w+)}/g, (_, v) => args[v]);
 
 
 function createData(ins) {
-    const numString = `
-        - name: {key}
-          value: {value}`;
     const dataString = `
         - name: {key}
           value: "{value}"`;
@@ -31,7 +28,7 @@ function createData(ins) {
         key: "DATA_NUM",
         value: ins.dataUrl.data[0].length
     }
-    let result = interpolate(numString, amountParams);
+    let result = interpolate(dataString, amountParams);
     for (let i = 0; i < ins.dataUrl.data[0].length; i++) {
         params = {
             key: `DATA${i}`,
