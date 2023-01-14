@@ -48,7 +48,7 @@ async function getAddress(spec, client) {
         apiVersion: "apps/v1",
         kind: "Deployment",
         metadata: {
-            name: response.body.status.latestCreatedRevisionName
+            name: `${response.body.status.latestCreatedRevisionName}-deployment`
         }
     });
     console.log(response);
