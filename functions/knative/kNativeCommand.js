@@ -27,15 +27,13 @@ function createData(ins) {
             value: {value}`;
     amountParams = {
         key: "DATA_NUM",
-        value: ins.dataUrl.data.length
+        value: ins.dataUrl.data[0].length
     }
     let result = interpolate(dataString, amountParams);
-    console.log(ins.dataUrl.data);
-    console.log(ins.dataUrl.data.length);
-    for (let i = 0; i < ins.dataUrl.data.length; i++) {
+    for (let i = 0; i < ins.dataUrl.data[0].length; i++) {
         params = {
             key: `DATA${i}`,
-            value: ins.dataUrl.data[i]
+            value: ins.dataUrl.data[0][i]
         }
         result += ("\n" + interpolate(dataString, params));
     }
