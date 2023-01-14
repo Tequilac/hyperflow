@@ -43,10 +43,11 @@ async function execute(spec, client, url) {
     const response = await fetch(url);
     const json = await response.json();
     console.log(json);
-    deleteService(spec, client);
+    await deleteService(spec, client);
+    return json;
 }
 
-async function getCondition(spec, client, name, url) {
+async function getCondition(spec, client, name, url, outs, cb) {
     response = await client.read({
         apiVersion: "apps/v1",
         kind: "Deployment",
@@ -57,9 +58,10 @@ async function getCondition(spec, client, name, url) {
     const condition = response.body.status.conditions[0].type;
     console.log(`Current condition: ${condition}`);
     if (condition !== "Available") {
-        setTimeout(() => getCondition(spec, client, name, url), 1000);
+        setTimeout(() => getCondition(spec, client, name, url, outs, cb), 1000);
     } else {
-        execute(spec, client, url);
+        outs[0].data = await execute(spec, client, url);
+        cb(null, outs);
     }
 }
 
@@ -69,18 +71,14 @@ async function deleteService(spec, client) {
     console.log("Service deleted");
 }
 
-async function scheduleExecution(spec, client) {
+async function scheduleExecution(spec, client, outs, cb) {
     let response = await client.read(spec);
     const url = response.body.status.url;
     console.log("Obtained service url: " + url);
-    setTimeout(() => getCondition(spec, client, response.body.status.latestCreatedRevisionName, url), 1000);
+    setTimeout(() => getCondition(spec, client, response.body.status.latestCreatedRevisionName, url, outs, cb), 1000);
 }
 
 async function kNativeCommand(ins, outs, context, cb) {
-    console.log(ins);
-    console.log(outs);
-    console.log(context);
-    console.log(cb);
     const kubeconfig = new k8s.KubeConfig();
     kubeconfig.loadFromDefault();
 
@@ -98,7 +96,7 @@ async function kNativeCommand(ins, outs, context, cb) {
     const client = k8s.KubernetesObjectApi.makeApiClient(kubeconfig);
     let response = await client.create(spec);
     console.log(response.body);
-    setTimeout(() => scheduleExecution(spec, client), 3000);
+    setTimeout(() => scheduleExecution(spec, client, outs, cb), 3000);
 }
 
 exports.kNativeCommand = kNativeCommand;
