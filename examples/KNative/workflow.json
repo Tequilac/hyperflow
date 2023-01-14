@@ -1,8 +1,8 @@
 {
-  "name": "kNativeExample",
+  "name": "knative-example",
   "processes": [
     {
-      "name": "kNativeExample",
+      "name": "knative-example",
       "type": "dataflow",
       "firingLimit": 1,
       "function": "kNativeCommand",
