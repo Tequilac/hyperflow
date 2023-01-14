@@ -13,9 +13,8 @@ spec:
   template:
     spec:
       containers:
-        - image: docker.io/{image}
-          env:
-          {dataParams}`;
+      - image: docker.io/{image}
+        env:{dataParams}`;
 
 
 var interpolate = (tpl, args) => tpl.replace(/{(\w+)}/g, (_, v) => args[v]);
