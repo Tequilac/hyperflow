@@ -51,7 +51,7 @@ async function getAddress(spec, client) {
             name: `${response.body.status.latestCreatedRevisionName}-deployment`
         }
     });
-    console.log(response);
+    console.log(response.body.status.conditions);
     console.log("Deleting...");
     await client.delete(spec);
     console.log("Service deleted");
