@@ -43,6 +43,7 @@ async function kNativeCommand(ins, outs, context, cb) {
 
     async function execute(spec, client, url) {
         const response = await fetch(url);
+        console.log(response);
         const json = await response.json();
         console.log(json);
         await deleteService(spec, client);
