@@ -44,15 +44,11 @@ async function kNativeCommand(ins, outs, context, cb) {
 
     async function execute(spec, client, url) {
         const startTime = Date.now();
-        const response = await axios({
+        axios({
             method: 'get',
             url: url,
-            headers: { 'content-type': 'application/json' }
-        });
-        if (response.status >= 400) {
-            console.log("Waiting for pod to become ready");
-            setTimeout(() => execute(spec, client, url), 5000);
-        } else {
+            headers: {'content-type': 'application/json'}
+        }).then(async response => {
             const endTime = Date.now();
             console.log(`Execution time: ${(endTime - startTime) / 1000} seconds`);
             const json = await response.data();
@@ -60,7 +56,10 @@ async function kNativeCommand(ins, outs, context, cb) {
             await deleteService(spec, client);
             outs[0].data = json;
             cb(null, outs);
-        }
+        }).catch(() => {
+            console.log("Waiting for pod to become ready");
+            setTimeout(() => execute(spec, client, url), 5000);
+        });
     }
 
     async function getCondition(spec, client, name, url) {
