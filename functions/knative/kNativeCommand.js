@@ -43,11 +43,16 @@ async function kNativeCommand(ins, outs, context, cb) {
 
     async function execute(spec, client, url) {
         const response = await fetch(url);
-        console.log(response);
-        const json = await response.json();
-        console.log(json);
-        await deleteService(spec, client);
-        return json;
+        if (response.status >= 400) {
+            console.log("Pod not ready, retrying in 5 seconds");
+            setTimeout(() => execute(spec, client, url), 5000);
+        } else {
+            const json = await response.json();
+            console.log(json);
+            await deleteService(spec, client);
+            outs[0].data = json;
+            cb(null, outs);
+        }
     }
 
     async function getCondition(spec, client, name, url) {
@@ -63,8 +68,7 @@ async function kNativeCommand(ins, outs, context, cb) {
         if (condition !== "Available") {
             setTimeout(() => getCondition(spec, client, name, url), 1000);
         } else {
-            outs[0].data = await execute(spec, client, url);
-            cb(null, outs);
+            await execute(spec, client, url);
         }
     }
 
