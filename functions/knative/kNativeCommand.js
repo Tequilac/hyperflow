@@ -25,13 +25,14 @@ async function kNativeCommand(ins, outs, context, cb) {
         const dataString = `
         - name: {key}
           value: "{value}"`;
-        amountParams = {
+        let amountParams = {
             key: "DATA_NUM",
             value: ins.dataUrl.data[0].length
         }
+        console.log(ins);
         let result = interpolate(dataString, amountParams);
         for (let i = 0; i < ins.dataUrl.data[0].length; i++) {
-            dataParams = {
+            let dataParams = {
                 key: `DATA${i}`,
                 value: ins.dataUrl.data[0][i]
             }
