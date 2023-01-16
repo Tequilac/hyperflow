@@ -51,7 +51,7 @@ async function kNativeCommand(ins, outs, context, cb) {
         }).then(async response => {
             const endTime = Date.now();
             console.log(`Execution time: ${(endTime - startTime) / 1000} seconds`);
-            const json = await response.data();
+            const json = response.data;
             console.log(json);
             await deleteService(spec, client);
             outs[0].data = json;
