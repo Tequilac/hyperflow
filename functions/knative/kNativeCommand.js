@@ -17,7 +17,7 @@ spec:
         env:{dataParams}`;
 
 
-var interpolate = (tpl, args) => tpl.replace(/{(\w+)}/g, (_, v) => args[v]);
+const interpolate = (tpl, args) => tpl.replace(/{(\w+)}/g, (_, v) => args[v]);
 
 async function kNativeCommand(ins, outs, context, cb) {
 
@@ -44,11 +44,11 @@ async function kNativeCommand(ins, outs, context, cb) {
     async function execute(spec, client, url) {
         const response = await fetch(url);
         if (response.status >= 400) {
-            console.log("Pod not ready, retrying in 5 seconds");
+            console.log("Waiting for pod to become ready");
             setTimeout(() => execute(spec, client, url), 5000);
         } else {
+            console.log("Executing...");
             const json = await response.json();
-            console.log(json);
             await deleteService(spec, client);
             outs[0].data = json;
             cb(null, outs);
@@ -94,9 +94,8 @@ async function kNativeCommand(ins, outs, context, cb) {
         image: context.image,
         dataParams: createData(ins)
     }
-    console.log(interpolate(SERVICE_YAML_TEMPLATE, params));
 
-    var spec = yaml.safeLoad(interpolate(SERVICE_YAML_TEMPLATE, params));
+    const spec = yaml.safeLoad(interpolate(SERVICE_YAML_TEMPLATE, params));
 
     console.log(spec);
     const client = k8s.KubernetesObjectApi.makeApiClient(kubeconfig);
