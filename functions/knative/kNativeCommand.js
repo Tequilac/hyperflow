@@ -22,18 +22,19 @@ var interpolate = (tpl, args) => tpl.replace(/{(\w+)}/g, (_, v) => args[v]);
 async function kNativeCommand(ins, outs, context, cb) {
 
     function createData() {
+        const data = ins[0].data[0];
         const dataString = `
         - name: {key}
           value: "{value}"`;
         let amountParams = {
             key: "DATA_NUM",
-            value: ins.dataUrl.data[0].length
+            value: data.length
         }
         let result = interpolate(dataString, amountParams);
-        for (let i = 0; i < ins[0].data[0].length; i++) {
+        for (let i = 0; i < data.length; i++) {
             let dataParams = {
                 key: `DATA${i}`,
-                value: ins[0].data[0][i]
+                value: data[i]
             }
             result += interpolate(dataString, dataParams);
         }
