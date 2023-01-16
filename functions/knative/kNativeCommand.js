@@ -2,6 +2,7 @@
 
 const k8s = require('@kubernetes/client-node');
 const yaml = require('js-yaml');
+const axios = require("axios");
 
 SERVICE_YAML_TEMPLATE = `
 apiVersion: serving.knative.dev/v1
@@ -43,14 +44,18 @@ async function kNativeCommand(ins, outs, context, cb) {
 
     async function execute(spec, client, url) {
         const startTime = Date.now();
-        const response = await fetch(url);
+        const response = await axios({
+            method: 'get',
+            url: url,
+            headers: { 'content-type': 'application/json' }
+        });
         if (response.status >= 400) {
             console.log("Waiting for pod to become ready");
             setTimeout(() => execute(spec, client, url), 5000);
         } else {
             const endTime = Date.now();
             console.log(`Execution time: ${(endTime - startTime) / 1000} seconds`);
-            const json = await response.json();
+            const json = await response.data();
             console.log(json);
             await deleteService(spec, client);
             outs[0].data = json;
