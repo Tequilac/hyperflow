@@ -47,7 +47,6 @@ async function kNativeCommand(ins, outs, context, cb) {
             console.log("Waiting for pod to become ready");
             setTimeout(() => execute(spec, client, url), 5000);
         } else {
-            console.log("Executing...");
             const json = await response.json();
             await deleteService(spec, client);
             outs[0].data = json;
@@ -68,6 +67,7 @@ async function kNativeCommand(ins, outs, context, cb) {
         if (condition !== "Available") {
             setTimeout(() => getCondition(spec, client, name, url), 1000);
         } else {
+            console.log("Executing...");
             await execute(spec, client, url);
         }
     }
@@ -97,10 +97,8 @@ async function kNativeCommand(ins, outs, context, cb) {
 
     const spec = yaml.safeLoad(interpolate(SERVICE_YAML_TEMPLATE, params));
 
-    console.log(spec);
     const client = k8s.KubernetesObjectApi.makeApiClient(kubeconfig);
     let response = await client.create(spec);
-    console.log(response.body);
     setTimeout(() => scheduleExecution(spec, client, outs, cb), 3000);
 }
 
