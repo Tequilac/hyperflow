@@ -30,6 +30,7 @@ async function kNativeCommand(ins, outs, context, cb) {
             value: ins.dataUrl.data[0].length
         }
         console.log(ins);
+        console.log(ins[0].data);
         let result = interpolate(dataString, amountParams);
         for (let i = 0; i < ins.dataUrl.data[0].length; i++) {
             let dataParams = {
