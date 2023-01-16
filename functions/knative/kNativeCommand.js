@@ -59,7 +59,8 @@ async function kNativeCommand(ins, outs, context, cb) {
             apiVersion: "apps/v1",
             kind: "Deployment",
             metadata: {
-                name: `${name}-deployment`
+                name: `${name}-deployment`,
+                namespace: context.namespace ? context.namespace : "default",
             }
         });
         const condition = response.body.status.conditions[0].type;
